@@ -73,7 +73,7 @@ prompt_user() {
     echo "Choose action for 360 files:"
     echo "  1. Change all media files container to .mov"
     echo "  2. Remap 360 files & change all media files container to .mov"
-    echo "  3. Remap 360 fioles only without changing the container"
+    echo "  3. Remap 360 files only without changing the container"
     read -r action
 
     if [ "$action" -eq 2 ] || [ "$action" -eq 3 ]; then
