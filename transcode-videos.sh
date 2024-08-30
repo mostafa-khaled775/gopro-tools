@@ -106,7 +106,7 @@ search_and_confirm_files() {
     echo ""
     echo "Searching for files in $input_folder..."
     shopt -s nullglob
-    files_found=($(find "$input_folder" -type f \( -name "*.mp4" -o -name "*.MP4" -o -name "*.ts" -o -name "*.TS" -o -name "*.mkv" -o -name "*.MKV" -o -name "*.avi" -o -name "*.AVI" -o -name "*.mov" -o -name "*.MOV" -o -name "*.flv" -o -name "*.FLV" -o -name "*.wmv" -o -name "*.WMV" -o -name "*.360" \)))
+    files_found=$(find "$input_folder" -type f \( -name "*.mp4" -o -name "*.MP4" -o -name "*.ts" -o -name "*.TS" -o -name "*.mkv" -o -name "*.MKV" -o -name "*.avi" -o -name "*.AVI" -o -name "*.mov" -o -name "*.MOV" -o -name "*.flv" -o -name "*.FLV" -o -name "*.wmv" -o -name "*.WMV" -o -name "*.360" \))
     
     if [ ${#files_found[@]} -eq 0 ]; then
         echo "No files found in the specified folder."
