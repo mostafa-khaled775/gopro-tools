@@ -366,16 +366,20 @@ select_hardware_acceleration() {
             hwaccel=""
             encoder="libx264"
             echo "Using CPU cores for processing."
-            echo "Please enter the number of CPU cores to use for processing:"
+            echo "Please enter the number of CPU cores to use for processing (default: half of available cores):"
             read -r num_cores
+            if [ -z "$num_cores" ]; then
+                num_cores=$(( $(nproc) / 2 ))
+                echo "Defaulting to $num_cores cores."
+            fi
             ;;
         *)
             echo "Invalid choice. Defaulting to CPU processing."
             hwaccel=""
             encoder="libx264"
             echo "Using CPU cores for processing."
-            echo "Please enter the number of CPU cores to use for processing:"
-            read -r num_cores
+            num_cores=$(( $(nproc) / 2 ))
+            echo "Defaulting to $num_cores cores."
             ;;
     esac
     echo ""
@@ -754,7 +758,11 @@ transcode_mp4() {
                 ffmpeg -loglevel verbose -y -i "$input_file" -c:v libx264 -c:a pcm_s16le -threads "$num_cores" -strict experimental "$output_file"
             fi
         else
-            ffmpeg -loglevel verbose -y -i "$input_file" -c:v copy -c:a pcm_s16le -threads "$num_cores" -strict experimental "$output_file"
+            if [ -n "$num_cores" ]; then
+                ffmpeg -loglevel verbose -y -i "$input_file" -c:v copy -c:a pcm_s16le -threads "$num_cores" -strict experimental "$output_file"
+            else
+                ffmpeg -loglevel verbose -y -i "$input_file" -c:v copy -c:a pcm_s16le -strict experimental "$output_file"
+            fi
         fi
 
         touch -r "$input_file" "$output_file"
