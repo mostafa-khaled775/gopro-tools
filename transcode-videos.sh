@@ -440,7 +440,7 @@ process_360_recursive() {
     process_360 "$src" "$dest"
 
     for subdir in "$src"/*/; do
-        if [[ -d "$subdir" && "$(basename "$subdir")" != "Processed" ]]; then
+        if [[ -d "$subdir" && "$(realpath "$subdir")" != "$(realpath "$dest")" ]]; then
             local subdest="${dest}/${subdir#$src}"
             [[ ! -d "$subdest" ]] && mkdir -p "$subdest"
             process_360_recursive "$subdir" "$subdest"
@@ -704,7 +704,7 @@ transcode_mp4_recursive() {
     transcode_mp4 "$src" "$dest"
 
     for subdir in "$src"/*/; do
-        if [[ -d "$subdir" && "$(basename "$subdir")" != "Processed" ]]; then
+        if [[ -d "$subdir" && "$(realpath "$subdir")" != $(realpath "$dest") ]]; then
             local subdest="${dest}/${subdir#$src}"
             [[ ! -d "$subdest" ]] && mkdir -p "$subdest"
             transcode_mp4_recursive "$subdir" "$subdest"
@@ -781,7 +781,7 @@ copy_non_media_files_recursive() {
     copy_non_media_files "$src" "$dest"
 
     for subdir in "$src"/*/; do
-        if [[ -d "$subdir" && "$(basename "$subdir")" != "Processed" ]]; then
+        if [[ -d "$subdir" && "$(realpath "$subdir")" != $(realpath "$dest") ]]; then
             local subdest="${dest}/${subdir#$src}"
             [[ ! -d "$subdest" ]] && mkdir -p "$subdest"
             copy_non_media_files_recursive "$subdir" "$subdest"
